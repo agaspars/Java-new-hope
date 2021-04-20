@@ -7,6 +7,7 @@ import java.util.List;
 public class LoopsAndModel {
     public static void main(String[] Args) {
         Course java = new Course(CourseName.JAVA, 15);
+        Course web = new Course(CourseName.WEB, 10);
 
         System.out.println("This course is: " + java.getName());
 
