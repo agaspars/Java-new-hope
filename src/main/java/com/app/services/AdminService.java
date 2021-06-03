@@ -1,11 +1,13 @@
 package com.app.services;
 
 import com.app.dao.CatalogDao;
+import com.app.model.CatalogItem;
 import com.app.model.Category;
 import com.app.model.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -27,8 +29,23 @@ public class AdminService {
         return catalogDao.getSubcategories();
     }
 
+    public List<Subcategory> getSubcategories(long id) {
+        return catalogDao.getSubcategories(id);
+    }
+
     public void storeSubcategory (Subcategory subcategory) {
         // validation
         catalogDao.storeSubcategory(subcategory);
+    }
+
+    public List<CatalogItem> getItems() {
+        return catalogDao.getItems();
+    }
+
+    public void storeItem(CatalogItem item) {
+        // validation
+        String newPrice = item.getPrice().toString().replace(',','.');
+        item.setPrice(new BigDecimal(newPrice));
+        catalogDao.storeItem(item);
     }
 }
