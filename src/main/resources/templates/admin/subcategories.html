@@ -13,6 +13,8 @@
             <a th:href="'/_admin/subcategories/' + ${cat.id}" th:text="${cat.name}"></a>
         </div>
     </div>
+
+
     <div th:each="c : ${subcategories}" style="display:flex;">
         <div th:text="${c.id} + ':'"></div>
         <div th:text="${c.name}"></div>
