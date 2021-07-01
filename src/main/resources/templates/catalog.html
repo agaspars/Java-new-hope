@@ -12,7 +12,7 @@
                     <div class="catalog-links">
                         <div th:text="${item.subcategory.category.name}" class="category"></div>
                         <div class="category-delim"> >> </div>
-                        <div><a th:href="'/catalog/' + ${item.subcategory.id}" th:text="${item.subcategory.name}" class="category"></div>
+                        <div><a th:href="'/catalog/' + ${item.subcategory.id}" th:text="${item.subcategory.name}" class="category"></a></div>
                     </div>
                     <div><img th:src="@{/img/noimage.png}" class="catalog-img"></div>
                     <div th:text="${item.name}" class="catalog-name"></div>
