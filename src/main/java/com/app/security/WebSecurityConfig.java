@@ -1,0 +1,42 @@
+package com.app.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override   //Override - переназначить
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()    //Указываем какие endpoint'ы будем использовать
+                    .antMatchers("/welcome").permitAll()
+                    .anyRequest().authenticated()   //все остальные для идентифицированных пользователей
+                    .and()
+                .formLogin()    //Конфигурируем всё что связано с логин страницей
+                    .loginPage("/login")
+                    .permitAll()
+                    .and()
+                .logout()
+                    .permitAll();
+    }
+
+    @Bean   //Указываем что мы создаем спринговый объект
+    @Override
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("password")
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+}
