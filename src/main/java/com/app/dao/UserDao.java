@@ -38,6 +38,11 @@ public class UserDao {
         return jdbcTemplate.query("SELECT * FROM users", rowMapper);    //query - шлет запрос в базу данных и делает что то с данными
     }                                                                       // каждая строчка - отдельная запись. он отдает эти записи в rowMapper,
                                                                             // с полученой табличкой с данными он генерирует 2 переменные - содержимое записи и порядковый номер, с каждой записью он вызывает маппер,  который возвращает заполненного пользователя и складывает его в список
+    public List<User> getUserByEmail(String email) {
+        RowMapper<User> rowMapper = (rs, rowNumber) -> mapUser(rs);
+        return jdbcTemplate.query("SELECT * FROM users WHERE email = ?", rowMapper, email);
+    }
+
     //2nd method: mapping response from database to objects
     private User mapUser(ResultSet rs) throws SQLException {   //ResultSet - одна запись(строчка) в базе данных
         User user = new User();
@@ -47,12 +52,13 @@ public class UserDao {
         user.setLastName(rs.getString("last_name"));
         user.setEmail(rs.getString("email"));
         user.setPhone(rs.getString("phone"));
+        user.setPassword(rs.getString("password"));
 
         return user;
     }
 
     public void storeUser(User user) {
-        jdbcTemplate.update("INSERT INTO users (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, '123')",
-                user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone());
+        jdbcTemplate.update("INSERT INTO users (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)",
+                user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getPassword());
     }
 }

@@ -6,6 +6,7 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
+    private String password;
 
     public User(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
@@ -54,5 +55,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
