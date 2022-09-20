@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,8 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override   //Override - переназначить
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                    .and()
+                    .csrf().disable()
                 .authorizeRequests()    //Указываем какие endpoint'ы будем использовать
-                    .antMatchers("/welcome", "/registration").permitAll()
+                    .antMatchers("/welcome", "/registration", "/getItems", "/getCategories",
+                            "/getSubcategories/*", "/getItems/*", "/fileUpload", "/catalog").permitAll()
                     .anyRequest().authenticated()   //все остальные для идентифицированных пользователей
                     .and()
                 .formLogin()    //Конфигурируем всё что связано с логин страницей
